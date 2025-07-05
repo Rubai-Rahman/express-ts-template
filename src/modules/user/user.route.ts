@@ -1,10 +1,9 @@
 import { Router } from 'express';
-import { userController } from './user.controller';
-
+import { UserController } from './user.controller';
 
 const router = Router();
 
-router.get('/', userController.getAllUsers);
+router.get('/', UserController.getAllUsers);
 // router.get('/:id', validate(getUserSchema), userController.getUserById);
 // router.post('/', validate(createUserSchema), userController.createUser);
 // router.put('/:id', validate(updateUserSchema), userController.updateUser);
