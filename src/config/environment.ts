@@ -1,4 +1,9 @@
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.join(process.cwd(), '.env') });
 export const environment = {
-  port: process.env.PORT || 3000,
-  mongoUri: process.env.MONGO_URI || 'mongodb://localhost:27017/express_ts_template',
+  port: process.env.PORT,
+  mongoUri: process.env.MONGO_URI,
+  bycrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
 };

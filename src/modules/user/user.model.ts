@@ -1,10 +1,5 @@
 import { Schema, model } from 'mongoose';
-
-interface User {
-  name: string;
-  email: string;
-  password?: string;
-}
+import { User } from './user.interface';
 
 const userSchema = new Schema<User>({
   name: { type: String, required: true },
