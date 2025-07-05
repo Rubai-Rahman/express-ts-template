@@ -3,9 +3,10 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
+import { userRoutes } from '@modules/user/user.route';
+import errorHandler from '@middleware/errorHandler';
 
-import errorHandler from './middleware/errorHandler';
-import { userRoutes } from './modules/user/user.route';
+
 
 const app = express();
 
