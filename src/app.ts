@@ -57,14 +57,6 @@ app.use(compression());
 // API Routes
 app.use('/api/users', UserRoutes);
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({
-    error: 'Route not found',
-    message: `The requested route ${req.originalUrl} does not exist.`,
-  });
-});
-
 // Error handling middleware
 app.use(notFound);
 app.use(errorHandler);
