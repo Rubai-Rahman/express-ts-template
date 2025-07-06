@@ -1,4 +1,4 @@
-import { config } from '@config/config';
+import { config } from '@config/env';
 import winston from 'winston';
 
 const logFormat = winston.format.combine(

@@ -2,7 +2,7 @@ import 'module-alias/register';
 import 'dotenv/config';
 import app from './app';
 import { connectDB } from './config/database';
-import { config } from './config/config';
+import { config } from './config/env';
 
 const PORT = config.PORT || 3000;
 

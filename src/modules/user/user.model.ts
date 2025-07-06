@@ -7,8 +7,7 @@ import {
   TUserName,
   userModel,
 } from './user.interface';
-import { config } from '@config/config';
-
+import { config } from '@config/env';
 
 const { Schema, model } = mongoose;
 

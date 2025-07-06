@@ -1,5 +1,5 @@
 // src/middleware/error.middleware.ts
-import { config } from '@config/config';
+import { config } from '@config/env';
 import AppError from '@utils/AppError';
 import { logger } from '@utils/logger';
 import { Request, Response, NextFunction } from 'express';

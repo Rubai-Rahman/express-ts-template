@@ -2,7 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
-import { config } from '@config/config';
+import { config } from '@config/env';
 import rateLimit from 'express-rate-limit';
 import { logger } from '@utils/logger';
 import { UserRoutes } from '@modules/user/user.route';
