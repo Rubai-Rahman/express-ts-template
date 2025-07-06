@@ -360,7 +360,7 @@
   dependencies:
     "@types/webidl-conversions" "*"
 
-"@typescript-eslint/eslint-plugin@8.35.1", "@typescript-eslint/eslint-plugin@^8.35.1":
+"@typescript-eslint/eslint-plugin@^8.35.1":
   version "8.35.1"
   resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-8.35.1.tgz"
   integrity sha512-9XNTlo7P7RJxbVeICaIIIEipqxLKguyh+3UbXuT2XQuFp6d8VOeDEGuz5IiX0dgZo8CiI6aOFLg4e8cF71SFVg==
@@ -375,7 +375,7 @@
     natural-compare "^1.4.0"
     ts-api-utils "^2.1.0"
 
-"@typescript-eslint/parser@8.35.1", "@typescript-eslint/parser@^8.35.1":
+"@typescript-eslint/parser@^8.35.1":
   version "8.35.1"
   resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-8.35.1.tgz"
   integrity sha512-3MyiDfrfLeK06bi/g9DqJxP5pV74LNv4rFTyvGDmT3x2p1yp1lOd+qYZfiRPIOf/oON+WRZR5wxxuF85qOar+w==
@@ -2079,15 +2079,6 @@ type-is@^2.0.0, type-is@^2.0.1:
     content-type "^1.0.5"
     media-typer "^1.1.0"
     mime-types "^3.0.0"
-
-typescript-eslint@^8.35.1:
-  version "8.35.1"
-  resolved "https://registry.yarnpkg.com/typescript-eslint/-/typescript-eslint-8.35.1.tgz#4ddeda5c5777a7bd86516280d8099ada06055f2f"
-  integrity sha512-xslJjFzhOmHYQzSB/QTeASAHbjmxOGEP6Coh93TXmUBFQoJ1VU35UHIDmG06Jd6taf3wqqC1ntBnCMeymy5Ovw==
-  dependencies:
-    "@typescript-eslint/eslint-plugin" "8.35.1"
-    "@typescript-eslint/parser" "8.35.1"
-    "@typescript-eslint/utils" "8.35.1"
 
 typescript@^5.8.3:
   version "5.8.3"
