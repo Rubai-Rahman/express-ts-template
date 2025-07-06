@@ -19,16 +19,19 @@ A comprehensive TypeScript Node.js backend template with Express, MongoDB, and M
 
 ```
 src/
-├── config/          # Configuration files
-├── controllers/     # Route controllers
-├── middleware/      # Custom middleware
-├── models/         # Mongoose models
-├── routes/         # API routes
-├── services/       # Business logic
-├── types/          # TypeScript type definitions
-├── utils/          # Utility functions
 ├── app.ts          # Express app setup
-└── index.ts        # Entry point
+├── server.ts       # Server entry point
+├── config/         # Configuration files (database, env)
+├── middleware/     # Custom middleware (error handling, validation)
+├── modules/        # Feature modules
+│   └── user/       # User module example
+│       ├── user.controller.ts
+│       ├── user.interface.ts
+│       ├── user.model.ts
+│       ├── user.route.ts
+│       ├── user.service.ts
+│       └── user.validation.ts
+└── utils/          # Utility functions (AppError, logger, response)
 ```
 
 ## Quick Start
@@ -70,19 +73,8 @@ src/
 
 ## API Endpoints
 
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - User login
-- `GET /api/auth/profile` - Get user profile (protected)
-- `PUT /api/auth/profile` - Update user profile (protected)
-- `POST /api/auth/change-password` - Change password (protected)
-- `POST /api/auth/logout` - Logout user (protected)
-
-### Users (Admin only)
-- `GET /api/users` - Get all users with pagination
-- `GET /api/users/:id` - Get user by ID
-- `PATCH /api/users/:id/status` - Update user status
-- `DELETE /api/users/:id` - Delete user
+### User
+- `POST /api/users` - Create a new user
 
 ### Health Check
 - `GET /health` - Health check endpoint
@@ -97,41 +89,25 @@ yarn start        # Start production server
 
 # Code Quality
 yarn lint         # Run ESLint
-yarn lint:fix     # Fix ESLint errors
-
-# Testing
-yarn test         # Run tests
-yarn test:watch   # Run tests in watch mode
-
-# Utilities
-yarn clean        # Clean build directory
-yarn setup        # Install dependencies and build
+yarn format       # Format code with Prettier
 ```
 
-## Authentication Flow
 
-1. User registers with email, password, firstName, lastName
-2. User logs in with email and password
-3. Server returns JWT token
-4. Client includes token in Authorization header: `Bearer <token>`
-5. Protected routes verify token and extract user info
 
 ## Modular Architecture
 
 The template follows a modular pattern:
 
-- **Controllers**: Handle HTTP requests and responses
-- **Services**: Contain business logic and data processing
-- **Models**: Define database schemas and validations
-- **Middleware**: Handle cross-cutting concerns (auth, validation, errors)
-- **Routes**: Define API endpoints and link to controllers
+- **user.controller.ts**: Handles HTTP requests and responses for the user module.
+- **user.service.ts**: Contains business logic and data processing for the user module.
+- **user.model.ts**: Defines the database schema and validation for the user module.
+- **user.route.ts**: Defines API endpoints and links to the user controller.
+- **Middleware**: Handles cross-cutting concerns (auth, validation, errors)
 - **Utils**: Shared utility functions
-- **Types**: TypeScript type definitions
 
 ## Security Features
 
 - Password hashing with bcrypt
-- JWT token authentication
 - Request rate limiting
 - CORS configuration
 - Helmet for security headers
