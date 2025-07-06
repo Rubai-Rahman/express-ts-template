@@ -1,84 +1,37 @@
-import { Request, Response, NextFunction } from 'express';
-import {
-  CreateUserInput,
-  UpdateUserInput,
-  GetUserInput,
-} from './user.validation';
+import { Request, Response } from 'express';
+import { UserValidationSchema} from './user.validation';
+import { UserServices } from './user.service';
+import { z } from 'zod';
 
-import userService from './user.service';
-
-export async function getAllUsers(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+const createUser = async (req: Request, res: Response) => {
   try {
-    const users = await userService.getAllUsers();
-    res.status(200).json(users);
+    // const { user: userData } = req.body;
+    const zodParsedData = UserValidationSchema.parse(req.body);
+    const result = await UserServices.createUserIntoDB(zodParsedData);
+    res.status(201).json({
+      success: true,
+      message: 'User is created successfully',
+      data: result,
+    });
   } catch (error) {
-    next(error);
-  }
-}
-
-export async function getUserById(
-  req: Request<GetUserInput>,
-  res: Response,
-  next: NextFunction,
-) {
-  try {
-    const { id } = req.params;
-    const user = await userService.getUserById(id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    //handle zodError
+    if (error instanceof z.ZodError) {
+      res.status(400).json({
+        success: false,
+        message: error.errors,
+        error: error,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : 'Something went wrong',
+        error: error instanceof Error ? error : 'Unknown error',
+      });
     }
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
   }
-}
-
-export async function createUser(
-  req: Request<any, any, CreateUserInput>,
-  res: Response,
-  next: NextFunction,
-) {
-  try {
-    const newUser = await userService.createUser(req.body);
-    res.status(201).json(newUser);
-  } catch (error) {
-    next(error);
-  }
-}
-
-export async function updateUser(
-  req: Request<GetUserInput, any, UpdateUserInput>,
-  res: Response,
-  next: NextFunction,
-) {
-  try {
-    const { id } = req.params;
-    const updatedUser = await userService.updateUser(id, req.body);
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    next(error);
-  }
-}
-
-export async function deleteUser(
-  req: Request<GetUserInput>,
-  res: Response,
-  next: NextFunction,
-) {
-  try {
-    const { id } = req.params;
-    await userService.deleteUser(id);
-    res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
-}
+};
 
 export const UserController = {
   createUser,
-  getAllUsers,
 };

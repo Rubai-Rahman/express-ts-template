@@ -1,11 +1,24 @@
-import { CreateUserInput, UpdateUserInput } from './user.validation';
+import { User } from './user.model';
+import { TUser } from './user.interface';
 
-const userService = {
-  getAllUsers: async () => [],
-  getUserById: async (id: string) => ({ id, name: 'John Doe', email: 'john.doe@example.com' }),
-  createUser: async (data: CreateUserInput) => ({ id: 'new-id', ...data }),
-  updateUser: async (id: string, data: UpdateUserInput) => ({ id, ...data }),
-  deleteUser: async (id: string) => ({ id }),
+const createUserIntoDB = async (userData: TUser) => {
+  const user = new User(userData);
+  if (await user.isUserExists(userData.userId)) {
+    throw new Error('User already exists');
+  }
+  const result = await User.create(userData);
+  return {
+    userId: result.userId,
+    username: result.username,
+    fullName: user.fullName,
+    age: result.age,
+    email: result.email,
+    isActive: result.isActive,
+    hobbies: result.hobbies,
+    address: result.address,
+  };
 };
 
-export default userService;
+export const UserServices = {
+  createUserIntoDB,
+};

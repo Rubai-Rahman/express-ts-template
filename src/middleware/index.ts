@@ -1,7 +1,5 @@
-import validate from './validation.middleware';
-import errorHandler from './errorHandler';
+import validate from './validation';
 
 export {
   validate,
-  errorHandler,
 };

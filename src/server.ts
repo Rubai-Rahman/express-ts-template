@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import app from './app';
 import { connectDB } from './config/database';
-import { environment } from './config/environment';
+import { config } from './config/config';
 
-const PORT = environment.port || 3000;
+const PORT = config.PORT || 3000;
 
 // Connect to database
 connectDB();

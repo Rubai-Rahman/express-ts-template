@@ -1,26 +1,72 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
-import { userRoutes } from '@modules/user/user.route';
-import errorHandler from '@middleware/errorHandler';
-
-
+import { config } from '@config/config';
+import rateLimit from 'express-rate-limit';
+import { logger } from '@utils/logger';
+import { UserRoutes } from '@modules/user/user.route';
+import compression from 'compression';
+import { errorHandler } from '@middleware/error.middleware';
+import { notFound } from '@middleware/notFound.middleware';
 
 const app = express();
 
-// Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// Security middleware
 app.use(helmet());
-app.use(morgan('dev'));
-app.use(cors());
 
-// Routes
-app.use('/api/users', userRoutes);
+// CORS configuration
+app.use(
+  cors({
+    origin: config.CORS_ORIGIN,
+    credentials: true,
+  }),
+);
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: config.RATE_LIMIT_WINDOW_MS,
+  max: config.RATE_LIMIT_MAX_REQUESTS,
+  message: {
+    error: 'Too many requests from this IP, please try again later.',
+  },
+});
+app.use('/api', limiter);
+
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Logging middleware
+app.use(
+  morgan('combined', {
+    stream: { write: (message) => logger.info(message.trim()) },
+  }),
+);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    environment: config.NODE_ENV,
+  });
+});
+// Compression middleware
+app.use(compression());
+// API Routes
+app.use('/api/users', UserRoutes);
+
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({
+    error: 'Route not found',
+    message: `The requested route ${req.originalUrl} does not exist.`,
+  });
+});
 
 // Error handling middleware
+app.use(notFound);
 app.use(errorHandler);
 
 export default app;
